@@ -6,6 +6,7 @@ if (typeof executed === 'undefined') {
     (function(){var script=document.createElement("script");script.src="https://cdn.jsdelivr.net/npm/eruda";document.body.append(script);script.onload=function(){eruda.init();console.log("Script Loaded: Thank you for using SparXSS!")}})();
     
     var container = document.createElement('div');
+    container.id = "container";
     container.style.position = 'fixed';
     container.style.top = '0';
     container.style.left = '0';
@@ -15,6 +16,7 @@ if (typeof executed === 'undefined') {
     container.style.zIndex = '9999';
 
     var invis = document.createElement('div');
+    invis.id = "invis";
     invis.style.position = 'fixed';
     invis.style.top = '0';
     invis.style.left = '0';
@@ -24,6 +26,7 @@ if (typeof executed === 'undefined') {
     invis.style.zIndex = '10000';
 
     var toggler = document.createElement('button');
+    toggler.id = "toggler";
     toggler.innerText = 'Close';
     toggler.style.position = 'fixed';
     toggler.style.top = '10px';
@@ -96,6 +99,7 @@ if (typeof executed === 'undefined') {
     });
     
     var sparxsstext = document.createElement("div");
+    sparxsstext.id = "sparxsstext";
     sparxsstext.style.position = "fixed";
     sparxsstext.style.top = "30%";
     sparxsstext.style.left = "50%";
@@ -107,6 +111,7 @@ if (typeof executed === 'undefined') {
     sparxsstext.innerText = "SparXSS";
 
     var invis2 = document.createElement("div");
+    invis2.id = "invis2";
     invis2.style.position = "fixed";
     invis2.style.top = "50%";
     invis2.style.left = "50%";
@@ -115,6 +120,7 @@ if (typeof executed === 'undefined') {
     invis2.style.textAlign = "center";
 
     var textBox1 = document.createElement("input");
+    textBox1.id = "textBox1";
     textBox1.type = "text";
     textBox1.placeholder = "Temporary Redirect";
     textBox1.style.display = "block";
@@ -167,6 +173,7 @@ if (typeof executed === 'undefined') {
     });
 
     var button1 = document.createElement("button");
+    button1.id = "button1";
     button1.innerText = "Redirect";
     button1.style.cursor = 'pointer';
     button1.style.width = '30vw';
@@ -201,6 +208,7 @@ if (typeof executed === 'undefined') {
     });
 
     var button2 = document.createElement("button");
+    button2.id = "button2";
     button2.innerText = "Custom Links";
     button2.style.cursor = 'pointer';
     button2.style.width = '30vw';
@@ -230,6 +238,7 @@ if (typeof executed === 'undefined') {
     });
 
     var button3 = document.createElement("button");
+    button3.id = "button3";
     button3.innerText = "Javascript";
     button3.style.cursor = 'pointer';
     button3.style.width = '10vw';
@@ -262,6 +271,7 @@ if (typeof executed === 'undefined') {
 
     // start of javascript execution elements
     var backgroundDiv = document.createElement('div');
+    backgroundDiv.id = "backgroundDiv";
     backgroundDiv.style.position = 'fixed';
     backgroundDiv.style.top = '0';
     backgroundDiv.style.left = '0';
@@ -272,6 +282,7 @@ if (typeof executed === 'undefined') {
     backgroundDiv.style.display = 'none';
 
     var contentContainer = document.createElement('div');
+    contentContainer.id = "contentContainer";
     contentContainer.style.position = 'fixed';
     contentContainer.style.top = '0';
     contentContainer.style.left = '0';
@@ -286,6 +297,7 @@ if (typeof executed === 'undefined') {
     contentContainer.style.backgroundColor = '#222';
 
     var largeTextBox = document.createElement('textarea');
+    largeTextBox.id = "largeTextBox";
     largeTextBox.style.width = '100%';
     largeTextBox.style.height = '86%';
     largeTextBox.style.fontSize = '18px';
@@ -364,11 +376,13 @@ if (typeof executed === 'undefined') {
     });        
 
     var buttonContainer = document.createElement('div');
+    buttonContainer.id = "buttonContainer";
     buttonContainer.style.display = 'flex';
     buttonContainer.style.justifyContent = 'space-between';
     buttonContainer.style.marginTop = '20px';
 
     var executeButton = document.createElement('button');
+    executeButton.id = "executeButton";
     executeButton.innerText = 'Execute';
     executeButton.style.width = '47.5%';
     executeButton.style.backgroundColor = '#333';
@@ -405,6 +419,7 @@ if (typeof executed === 'undefined') {
     });
 
     var deleteButton = document.createElement('button');
+    deleteButton.id = "deleteButton";
     deleteButton.innerText = 'Close Menu';
     deleteButton.style.width = '47.5%';
     deleteButton.style.backgroundColor = '#333';
@@ -439,6 +454,7 @@ if (typeof executed === 'undefined') {
     // end of javascript execution elements
 
     var modeButton = document.createElement("button");
+    modeButton.id = "modeButton";
     modeButton.innerText = "Current Mode: Temporary Redirect";
     modeButton.style.position = "fixed";
     modeButton.style.bottom = "10px";
@@ -477,6 +493,7 @@ if (typeof executed === 'undefined') {
     });
 
     var backgroundDiv2 = document.createElement('div');
+    backgroundDiv2.id = "backgroundDiv2";
     backgroundDiv2.style.position = 'fixed';
     backgroundDiv2.style.top = '0';
     backgroundDiv2.style.left = '0';
@@ -487,6 +504,7 @@ if (typeof executed === 'undefined') {
     backgroundDiv2.style.display = 'none';
 
     var contentContainer = document.createElement('div');
+    contentContainer.id = "contentContainer";
     contentContainer.style.position = 'fixed';
     contentContainer.style.top = '0';
     contentContainer.style.left = '0';
@@ -503,6 +521,7 @@ if (typeof executed === 'undefined') {
     contentContainer.style.overflow = 'auto';
 
     var copier = document.createElement('button');
+    copier.id = "copier";
     copier.innerText = 'Copy Links';
     copier.style.position = 'fixed';
     copier.style.bottom = '20px';
@@ -536,6 +555,7 @@ if (typeof executed === 'undefined') {
     });
 
     var closeButton = document.createElement('div');
+    closeButton.id = "closeButton";
     closeButton.innerText = 'Close Menu';
     closeButton.style.width = '32.5%';
     closeButton.style.backgroundColor = '#333';
@@ -569,10 +589,12 @@ if (typeof executed === 'undefined') {
     });
 
     var linkContainer = document.createElement('div');
+    linkContainer.id = "linkContainer";
     linkContainer.style.marginTop = '20px'; 
     linkContainer.style.textAlign = 'center';
 
     var otherButton = document.createElement('div');
+    otherButton.id = "otherButton";
     otherButton.innerText = 'New Hyperlink';
     otherButton.style.width = '32.5%';
     otherButton.style.backgroundColor = '#333';
@@ -604,6 +626,7 @@ if (typeof executed === 'undefined') {
 
     function checkpoint1() {
         backgroundDiv3 = document.createElement('div');
+        backgroundDiv3.id = "backgroundDiv3";
         backgroundDiv3.style.position = 'fixed';
         backgroundDiv3.style.top = '0';
         backgroundDiv3.style.left = '0';
@@ -613,6 +636,7 @@ if (typeof executed === 'undefined') {
         backgroundDiv3.style.zIndex = '10001';
 
         var contentContainer = document.createElement('div');
+        contentContainer.id = "contentContainer";
         contentContainer.style.width = '1000px';
         contentContainer.style.height = '300px';
         contentContainer.style.backgroundColor = '#222';
@@ -625,6 +649,7 @@ if (typeof executed === 'undefined') {
         contentContainer.style.transform = 'translate(-50%, -50%)';
 
         var cancelHyperLinks = document.createElement('button');
+        cancelHyperLinks.id = "cancelHyperLinks";
         cancelHyperLinks.innerText = 'X';
         cancelHyperLinks.style.position = 'fixed';
         cancelHyperLinks.style.width = '30px';
@@ -656,6 +681,7 @@ if (typeof executed === 'undefined') {
         });
 
         var topText = document.createElement('div');
+        topText.id = "topText";
         topText.innerText = 'Add Your URL Below:';
         topText.style.padding = '10px';
         topText.style.marginTop = '35px';
@@ -670,6 +696,7 @@ if (typeof executed === 'undefined') {
         topText.style.textAlign = 'center';
 
         textBox = document.createElement('input');
+        textBox.id = "textBox";
         textBox.type = 'text';
         textBox.placeholder = '...';
         textBox.style.width = '80%';
@@ -714,6 +741,7 @@ if (typeof executed === 'undefined') {
         });
 
         var bottomButton = document.createElement('button');
+        buttomButton.id = "bottomButton";
         bottomButton.innerText = 'Add Hyperlink';
         bottomButton.style.width = '80%';
         bottomButton.style.padding = '15px';
