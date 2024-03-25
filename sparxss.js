@@ -1,10 +1,57 @@
+let tabIndex = 0;
+
 // so it executes once
 if (typeof executed === 'undefined') {
-    executed = true; 
+    executed = true;
 
     // eruda bc useful for debugging
-    (function(){var script=document.createElement("script");script.src="https://cdn.jsdelivr.net/npm/eruda";document.body.append(script);script.onload=function(){eruda.init();console.log("Script Loaded: Thank you for using SparXSS!")}})();
-    
+    (function () { var script = document.createElement("script"); script.src = "https://cdn.jsdelivr.net/npm/eruda"; document.body.append(script); script.onload = function () { eruda.init(); console.log("Script Loaded: Thank you for using SparXSS!") } })();
+
+    var tabsdiv = document.createElement("div")
+    tabsdiv.id = "tabsDiv";
+    tabsdiv.style.position = 'fixed';
+    tabsdiv.style.top = '0';
+    tabsdiv.style.left = '0';
+    tabsdiv.style.width = '100%';
+    tabsdiv.style.height = '100%';
+    tabsdiv.style.backgroundColor = '#222';
+    tabsdiv.style.zIndex = '9999';
+
+    var tabsContainer = document.createElement('div');
+    tabsContainer.id = "tabs-container";
+    tabsContainer.style.display = "flex";
+    tabsContainer.style.alignItems = "center";
+    tabsContainer.height = "95%";
+    tabsContainer.style.backgroundColor = "#eee";
+    tabsContainer.style.padding = "10px";
+
+    var tabsList = document.createElement("div");
+    tabsList.id = "tabs"
+    tabsList.style.display = "flex";
+    tabsList.style.flexWrap = "nowrap";
+    tabsList.style.overflowX = "auto";
+
+    var addTabButton = document.createElement("button");
+    addTabButton.id = "add-tab";
+    addTabButton.style.marginleft = "auto";
+    addTabButton.style.padding = "10px 20px";
+    addTabButton.style.cursor = "pointer";
+    addTabButton.innerHTML = "+";
+
+    addTabButton.addEventListener('click', function () {
+        createTab();
+    })
+
+    var tabContent = document.createElement("div");
+    tabContent.id = "tab-content";
+    tabContent.style.border = "1px solid #ccc";
+    tabContent.style.height = "95%";
+
+    tabsContainer.appendChild(tabsList);
+    tabsContainer.appendChild(addTabButton);
+    tabsdiv.appendChild(tabsContainer);
+    tabsdiv.appendChild(tabContent);
+
     var container = document.createElement('div');
     container.id = "container";
     container.style.position = 'fixed';
@@ -20,8 +67,8 @@ if (typeof executed === 'undefined') {
     invis.style.position = 'fixed';
     invis.style.top = '0';
     invis.style.left = '0';
-    invis.style.width = '5px'; 
-    invis.style.height = '5px'; 
+    invis.style.width = '5px';
+    invis.style.height = '5px';
     invis.style.backgroundColor = 'transparent';
     invis.style.zIndex = '10000';
 
@@ -29,8 +76,8 @@ if (typeof executed === 'undefined') {
     toggler.id = "toggler";
     toggler.innerText = 'Close';
     toggler.style.position = 'fixed';
-    toggler.style.top = '10px';
-    toggler.style.left = '10px';
+    toggler.style.bottom = '10px';
+    toggler.style.right = '10px';
     toggler.style.width = '100px';
     toggler.style.backgroundColor = '#333';
     toggler.style.border = 'none';
@@ -48,7 +95,7 @@ if (typeof executed === 'undefined') {
     var isDragging = false;
     var offsetX, offsetY;
     var clickStartX, clickStartY;
-    
+
     toggler.addEventListener('mousedown', function (e) {
         isDragging = true;
         offsetX = e.clientX - toggler.getBoundingClientRect().left;
@@ -56,48 +103,48 @@ if (typeof executed === 'undefined') {
         clickStartX = e.clientX;
         clickStartY = e.clientY;
     });
-    
+
     document.addEventListener('mousemove', function (e) {
         if (isDragging) {
             var newLeft = e.clientX - offsetX;
             var newTop = e.clientY - offsetY;
-    
+
             var maxX = window.innerWidth - toggler.clientWidth;
             var maxY = window.innerHeight - toggler.clientHeight;
-    
+
             newLeft = Math.max(0, Math.min(newLeft, maxX));
             newTop = Math.max(0, Math.min(newTop, maxY));
-    
+
             toggler.style.left = newLeft + 'px';
             toggler.style.top = newTop + 'px';
         }
     });
-    
+
     document.addEventListener('mouseup', function (e) {
         if (isDragging) {
             isDragging = false;
             var distanceMoved = Math.sqrt(Math.pow(e.clientX - clickStartX, 2) + Math.pow(e.clientY - clickStartY, 2));
             if (distanceMoved === 0) {
                 if (isOpen) {
-                    container.style.display = 'none';
+                    tabsdiv.style.display = 'none';
                     toggler.innerText = 'Open';
                 } else {
-                    container.style.display = '';
+                    tabsdiv.style.display = '';
                     toggler.innerText = 'Close';
                 }
                 isOpen = !isOpen;
             }
         }
     });
-    
-    toggler.addEventListener('mouseover', function() {
+
+    toggler.addEventListener('mouseover', function () {
         toggler.style.backgroundColor = '#444';
     });
-    
-    toggler.addEventListener('mouseout', function() {
+
+    toggler.addEventListener('mouseout', function () {
         toggler.style.backgroundColor = '#333';
     });
-    
+
     var sparxsstext = document.createElement("div");
     sparxsstext.id = "sparxsstext";
     sparxsstext.style.position = "fixed";
@@ -106,8 +153,8 @@ if (typeof executed === 'undefined') {
     sparxsstext.style.transform = "translate(-50%, -50%)";
     sparxsstext.style.fontSize = "100px";
     sparxsstext.style.textAlign = "center";
-    sparxsstext.style.color = "#aaa"; 
-    sparxsstext.style.fontWeight = "bold"; 
+    sparxsstext.style.color = "#aaa";
+    sparxsstext.style.fontWeight = "bold";
     sparxsstext.innerText = "SparXSS";
 
     var invis2 = document.createElement("div");
@@ -138,15 +185,15 @@ if (typeof executed === 'undefined') {
     textBox1.style.textAlign = 'center';
     textBox1.style.outline = 'none';
 
-    textBox1.addEventListener('mouseover', function() {
+    textBox1.addEventListener('mouseover', function () {
         textBox1.style.backgroundColor = '#444';
     });
 
-    textBox1.addEventListener('mouseout', function() {
+    textBox1.addEventListener('mouseout', function () {
         textBox1.style.backgroundColor = '#333';
     });
 
-    textBox1.addEventListener('keydown', function(event) {
+    textBox1.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             if (redirectSwitcher) {
                 permRedirector();
@@ -156,13 +203,13 @@ if (typeof executed === 'undefined') {
         }
     });
 
-    textBox1.addEventListener('click', function() {
+    textBox1.addEventListener('click', function () {
         if (textBox1.placeholder === "Temporary Redirect" || textBox1.placeholder === "Permanent Redirect") {
             textBox1.placeholder = "";
         }
     });
 
-    textBox1.addEventListener('blur', function() {
+    textBox1.addEventListener('blur', function () {
         if (textBox1.value.trim() === "") {
             if (redirectSwitcher) {
                 textBox1.placeholder = "Permanent Redirect";
@@ -186,20 +233,20 @@ if (typeof executed === 'undefined') {
     button1.style.transition = 'background-color 0.3s ease';
     button1.style.color = '#aaa';
     button1.style.display = 'block';
-    button1.style.margin = '10px auto'; 
-    button1.style.display = 'block'; 
+    button1.style.margin = '10px auto';
+    button1.style.display = 'block';
     button1.style.textAlign = 'center';
     button1.style.outline = 'none';
 
-    button1.addEventListener('mouseover', function() {
+    button1.addEventListener('mouseover', function () {
         button1.style.backgroundColor = '#444';
     });
 
-    button1.addEventListener('mouseout', function() {
+    button1.addEventListener('mouseout', function () {
         button1.style.backgroundColor = '#333';
     });
 
-    button1.addEventListener('click', function() {
+    button1.addEventListener('click', function () {
         if (redirectSwitcher) {
             permRedirector();
         } else {
@@ -220,20 +267,20 @@ if (typeof executed === 'undefined') {
     button2.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';
     button2.style.transition = 'background-color 0.3s ease';
     button2.style.color = '#aaa';
-    button2.style.margin = '10px auto'; 
-    button2.style.display = 'block'; 
-    button2.style.textAlign = 'center'; 
+    button2.style.margin = '10px auto';
+    button2.style.display = 'block';
+    button2.style.textAlign = 'center';
     button2.style.outline = 'none';
 
-    button2.addEventListener('mouseover', function() {
+    button2.addEventListener('mouseover', function () {
         button2.style.backgroundColor = '#444';
     });
 
-    button2.addEventListener('mouseout', function() {
+    button2.addEventListener('mouseout', function () {
         button2.style.backgroundColor = '#333';
     });
 
-    button2.addEventListener('click', function() {
+    button2.addEventListener('click', function () {
         backgroundDiv2.style.display = '';
     });
 
@@ -253,19 +300,19 @@ if (typeof executed === 'undefined') {
     button3.style.position = "fixed";
     button3.style.bottom = "10px";
     button3.style.left = "10px";
-    button3.style.display = 'block'; 
-    button3.style.textAlign = 'center'; 
+    button3.style.display = 'block';
+    button3.style.textAlign = 'center';
     button3.style.outline = 'none';
 
-    button3.addEventListener('mouseover', function() {
+    button3.addEventListener('mouseover', function () {
         button3.style.backgroundColor = '#444';
     });
 
-    button3.addEventListener('mouseout', function() {
+    button3.addEventListener('mouseout', function () {
         button3.style.backgroundColor = '#333';
     });
 
-    button3.addEventListener('click', function() {
+    button3.addEventListener('click', function () {
         backgroundDiv.style.display = 'block';
     });
 
@@ -339,7 +386,7 @@ if (typeof executed === 'undefined') {
         }
     }
 
-    largeTextBox.addEventListener('keydown', function(e) {
+    largeTextBox.addEventListener('keydown', function (e) {
         if (e.ctrlKey && e.key === 'z') {
             e.preventDefault();
             undo();
@@ -357,7 +404,7 @@ if (typeof executed === 'undefined') {
                 this.selectionStart = this.selectionEnd = start + spaces.length;
             } else {
                 var lines = value.substring(start, end).split('\n');
-                var indentedText = lines.map(function(line) {
+                var indentedText = lines.map(function (line) {
                     return spaces + line;
                 }).join('\n');
                 this.value = value.substring(0, start) + indentedText + value.substring(end);
@@ -365,7 +412,7 @@ if (typeof executed === 'undefined') {
                 this.selectionEnd = end + spaces.length * lines.length;
             }
             saveState();
-        // added deleting a 4 space tab
+            // added deleting a 4 space tab
         } else if (e.key === 'Backspace' && this.value.substring(this.selectionStart - 4, this.selectionStart) === '    ') {
             e.preventDefault();
             var start = this.selectionStart;
@@ -373,7 +420,7 @@ if (typeof executed === 'undefined') {
             this.selectionStart = this.selectionEnd = start - 4;
             saveState();
         }
-    });        
+    });
 
     var buttonContainer = document.createElement('div');
     buttonContainer.id = "buttonContainer";
@@ -395,16 +442,16 @@ if (typeof executed === 'undefined') {
     executeButton.style.cursor = 'pointer';
     executeButton.style.transition = 'background-color 0.3s ease';
 
-    executeButton.addEventListener('mouseover', function() {
+    executeButton.addEventListener('mouseover', function () {
         executeButton.style.backgroundColor = '#444';
     });
 
-    executeButton.addEventListener('mouseout', function() {
+    executeButton.addEventListener('mouseout', function () {
         executeButton.style.backgroundColor = '#333';
     });
 
     // actual javascript execution
-    executeButton.addEventListener('click', function() {
+    executeButton.addEventListener('click', function () {
         var jsCode = largeTextBox.value;
 
         try {
@@ -412,7 +459,7 @@ if (typeof executed === 'undefined') {
         } catch (error) {
             executeButton.innerText = 'Error: Execution Failed';
             console.log(error)
-            setTimeout(function() {
+            setTimeout(function () {
                 executeButton.innerText = 'Execute';
             }, 2000);
         }
@@ -432,15 +479,15 @@ if (typeof executed === 'undefined') {
     deleteButton.style.cursor = 'pointer';
     deleteButton.style.transition = 'background-color 0.3s ease';
 
-    deleteButton.addEventListener('mouseover', function() {
+    deleteButton.addEventListener('mouseover', function () {
         deleteButton.style.backgroundColor = '#444';
     });
 
-    deleteButton.addEventListener('mouseout', function() {
+    deleteButton.addEventListener('mouseout', function () {
         deleteButton.style.backgroundColor = '#333';
     });
 
-    deleteButton.addEventListener('click', function() {
+    deleteButton.addEventListener('click', function () {
         backgroundDiv.style.display = 'none';
     });
 
@@ -472,15 +519,15 @@ if (typeof executed === 'undefined') {
     modeButton.style.color = "#aaa";
     modeButton.style.outline = 'none';
 
-    modeButton.addEventListener("mouseover", function() {
+    modeButton.addEventListener("mouseover", function () {
         modeButton.style.backgroundColor = "#444";
     });
 
-    modeButton.addEventListener("mouseout", function() {
+    modeButton.addEventListener("mouseout", function () {
         modeButton.style.backgroundColor = "#333";
     });
 
-    modeButton.addEventListener("click", function() {
+    modeButton.addEventListener("click", function () {
         if (redirectSwitcher) {
             redirectSwitcher = false;
             modeButton.innerText = "Current Mode: Temporary Redirect";
@@ -539,15 +586,15 @@ if (typeof executed === 'undefined') {
     copier.style.outline = 'none';
     copier.style.textAlign = 'center';
 
-    copier.addEventListener('mouseover', function() {
+    copier.addEventListener('mouseover', function () {
         copier.style.backgroundColor = '#444';
     });
 
-    copier.addEventListener('mouseout', function() {
+    copier.addEventListener('mouseout', function () {
         copier.style.backgroundColor = '#333';
     });
 
-    copier.addEventListener('click', function() {
+    copier.addEventListener('click', function () {
         var textarea = document.querySelector('.questions-textarea');
         textarea.select();
         document.execCommand('copy');
@@ -572,15 +619,15 @@ if (typeof executed === 'undefined') {
     closeButton.style.bottom = '20px';
     closeButton.style.textAlign = 'center';
 
-    closeButton.addEventListener('mouseover', function() {
+    closeButton.addEventListener('mouseover', function () {
         closeButton.style.backgroundColor = '#444';
     });
 
-    closeButton.addEventListener('mouseout', function() {
+    closeButton.addEventListener('mouseout', function () {
         closeButton.style.backgroundColor = '#333';
     });
 
-    closeButton.addEventListener('click', function() {
+    closeButton.addEventListener('click', function () {
         backgroundDiv2.style.display = 'none';
 
         var textarea = document.querySelector('.questions-textarea');
@@ -590,7 +637,7 @@ if (typeof executed === 'undefined') {
 
     var linkContainer = document.createElement('div');
     linkContainer.id = "linkContainer";
-    linkContainer.style.marginTop = '20px'; 
+    linkContainer.style.marginTop = '20px';
     linkContainer.style.textAlign = 'center';
 
     var otherButton = document.createElement('div');
@@ -610,17 +657,17 @@ if (typeof executed === 'undefined') {
     otherButton.style.left = '6.5%';
     otherButton.style.bottom = '20px';
     otherButton.style.textAlign = 'center';
-    
-    otherButton.addEventListener('mouseover', function() {
+
+    otherButton.addEventListener('mouseover', function () {
         otherButton.style.backgroundColor = '#444';
     });
-    
-    otherButton.addEventListener('mouseout', function() {
+
+    otherButton.addEventListener('mouseout', function () {
         otherButton.style.backgroundColor = '#333';
     });
 
     // have to define these outside the function so checkpoint2() can acess them
-    var backgroundDiv3; 
+    var backgroundDiv3;
     var textBox;
     var linkContainer;
 
@@ -654,7 +701,7 @@ if (typeof executed === 'undefined') {
         cancelHyperLinks.style.position = 'fixed';
         cancelHyperLinks.style.width = '30px';
         cancelHyperLinks.style.height = '30px';
-        cancelHyperLinks.style.fontSize = '20px'; 
+        cancelHyperLinks.style.fontSize = '20px';
         cancelHyperLinks.style.top = '-5px';
         cancelHyperLinks.style.right = '-5px';
         cancelHyperLinks.style.margin = '10px';
@@ -667,16 +714,16 @@ if (typeof executed === 'undefined') {
         cancelHyperLinks.style.cursor = 'pointer';
         cancelHyperLinks.style.fontWeight = 'bold';
         cancelHyperLinks.style.transition = 'background-color 0.3s ease';
-    
-        cancelHyperLinks.addEventListener('mouseover', function() {
+
+        cancelHyperLinks.addEventListener('mouseover', function () {
             cancelHyperLinks.style.backgroundColor = '#444';
         });
-    
-        cancelHyperLinks.addEventListener('mouseout', function() {
+
+        cancelHyperLinks.addEventListener('mouseout', function () {
             cancelHyperLinks.style.backgroundColor = '#333';
         });
 
-        cancelHyperLinks.addEventListener('click', function() {
+        cancelHyperLinks.addEventListener('click', function () {
             backgroundDiv3.remove();
         });
 
@@ -712,30 +759,30 @@ if (typeof executed === 'undefined') {
         textBox.style.fontSize = '24px';
         textBox.style.outline = 'none';
 
-        textBox.addEventListener('mouseover', function() {
+        textBox.addEventListener('mouseover', function () {
             textBox.style.backgroundColor = '#444';
         });
 
-        textBox.addEventListener('mouseout', function() {
+        textBox.addEventListener('mouseout', function () {
             textBox.style.backgroundColor = '#333';
         });
-        
-        textBox.addEventListener('keydown', function(event) {
+
+        textBox.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
-                if (textBox.value.trim() !== '' && textBox.value.includes('.')) { 
+                if (textBox.value.trim() !== '' && textBox.value.includes('.')) {
                     userURL = textBox.value
                     if (userURL.startsWith("https://")) {
-                      userURL = userURL.slice(8);
+                        userURL = userURL.slice(8);
                     } else if (userURL.startsWith("http://")) {
-                      userURL = userURL.slice(7);
-                    }                
+                        userURL = userURL.slice(7);
+                    }
                     backgroundDiv3.style.display = 'none';
                     checkpoint2(userURL);
                 } else {
                     bottomButton.innerText = 'Error: Invalid URL';
-                    setTimeout(function() {
+                    setTimeout(function () {
                         bottomButton.innerText = 'Add Hyperlink';
-                    }, 2000); 
+                    }, 2000);
                 }
             }
         });
@@ -755,29 +802,29 @@ if (typeof executed === 'undefined') {
         bottomButton.style.transition = 'background-color 0.3s ease';
         bottomButton.style.fontSize = '24px';
 
-        bottomButton.addEventListener('mouseover', function() {
+        bottomButton.addEventListener('mouseover', function () {
             bottomButton.style.backgroundColor = '#444';
         });
 
-        bottomButton.addEventListener('mouseout', function() {
+        bottomButton.addEventListener('mouseout', function () {
             bottomButton.style.backgroundColor = '#333';
         });
 
-        bottomButton.addEventListener('click', function() {
-            if (textBox.value.trim() !== '' && textBox.value.includes('.')) { 
+        bottomButton.addEventListener('click', function () {
+            if (textBox.value.trim() !== '' && textBox.value.includes('.')) {
                 userURL = textBox.value
                 if (userURL.startsWith("https://")) {
-                  userURL = userURL.slice(8);
+                    userURL = userURL.slice(8);
                 } else if (userURL.startsWith("http://")) {
-                  userURL = userURL.slice(7);
-                }                
+                    userURL = userURL.slice(7);
+                }
                 backgroundDiv3.style.display = 'none';
                 checkpoint2(userURL);
             } else {
                 bottomButton.innerText = 'Error: Invalid URL';
-                setTimeout(function() {
+                setTimeout(function () {
                     bottomButton.innerText = 'Add Hyperlink';
-                }, 2000); 
+                }, 2000);
             }
         });
 
@@ -791,16 +838,16 @@ if (typeof executed === 'undefined') {
     }
 
     var linkCounter = 1;
-    
+
     function checkpoint2(userURL) {
         const websiteURL = 'https://' + userURL;
         var faviconURL = '';
-    
+
         fetch(websiteURL)
-            .then(function(response) {
+            .then(function (response) {
                 return response.text();
             })
-            .then(function(data) {
+            .then(function (data) {
                 var match = data.match(/<link.*?rel=["']icon["'].*?href=["'](.*?)["']/i);
                 if (match) {
                     faviconURL = match[1];
@@ -818,7 +865,7 @@ if (typeof executed === 'undefined') {
                 }
 
                 console.log("Final Favicon URL: " + faviconURL)
-    
+
                 var link = document.createElement('button');
                 link.style.width = '25%';
                 link.style.height = '225px';
@@ -833,38 +880,38 @@ if (typeof executed === 'undefined') {
                 link.style.transition = 'background-color 0.3s ease';
                 link.style.margin = '10px';
                 link.style.textAlign = 'center';
-    
-                link.addEventListener('mouseover', function() {
+
+                link.addEventListener('mouseover', function () {
                     link.style.backgroundColor = '#444';
                 });
-    
-                link.addEventListener('mouseout', function() {
+
+                link.addEventListener('mouseout', function () {
                     link.style.backgroundColor = '#333';
                 });
-    
-                link.addEventListener('click', function() {
+
+                link.addEventListener('click', function () {
                     if (redirectSwitcher === false) {
                         window.open('https://' + userURL, '_blank');
                     } else {
                         window.location.href = 'https://' + userURL;
                     }
                 });
-    
+
                 linkContainer.appendChild(link);
-    
+
                 var imgDiv = document.createElement('img');
                 imgDiv.style.width = '150px';
                 imgDiv.style.height = '150px';
                 imgDiv.style.textAlign = 'center';
                 imgDiv.src = faviconURL;
-                
+
                 link.appendChild(imgDiv);
-    
+
                 var linkText = document.createElement('div');
                 linkText.innerText = userURL;
                 linkText.style.marginTop = '10px';
                 linkText.style.textAlign = 'center';
-                
+
                 link.appendChild(linkText);
 
                 var deleteLink = document.createElement('button');
@@ -872,7 +919,7 @@ if (typeof executed === 'undefined') {
                 deleteLink.style.position = 'fixed';
                 deleteLink.style.width = '30px';
                 deleteLink.style.height = '30px';
-                deleteLink.style.fontSize = '20px'; 
+                deleteLink.style.fontSize = '20px';
                 deleteLink.style.top = '-5px';
                 deleteLink.style.right = '-5px';
                 deleteLink.style.margin = '10px';
@@ -885,16 +932,16 @@ if (typeof executed === 'undefined') {
                 deleteLink.style.cursor = 'pointer';
                 deleteLink.style.fontWeight = 'bold';
                 deleteLink.style.transition = 'background-color 0.3s ease';
-            
-                deleteLink.addEventListener('mouseover', function() {
+
+                deleteLink.addEventListener('mouseover', function () {
                     deleteLink.style.backgroundColor = '#444';
                 });
-            
-                deleteLink.addEventListener('mouseout', function() {
+
+                deleteLink.addEventListener('mouseout', function () {
                     deleteLink.style.backgroundColor = '#333';
                 });
-        
-                deleteLink.addEventListener('click', function() {
+
+                deleteLink.addEventListener('click', function () {
                     backgroundDiv3.remove();
                 });
 
@@ -923,7 +970,68 @@ if (typeof executed === 'undefined') {
     contentContainer.appendChild(copier);
     contentContainer.appendChild(closeButton);
     backgroundDiv2.appendChild(contentContainer);
-    document.body.appendChild(backgroundDiv2);
+    function createTab() {
+        const tabsContainer = document.getElementById('tabs');
+        const tabContentContainer = document.getElementById('tab-content');
+        const newTabId = 'tab-' + tabIndex;
+        const newContentId = 'content-' + tabIndex;
+
+        let newTab = document.createElement('div');
+        newTab.classList.add('tab');
+        newTab.style.padding = "10px 20px";
+        newTab.style.cursor = "pointer";
+        newTab.style.whiteSpace = "nowrap";
+        newTab.style.border = "1px solid #ccc";
+        newTab.style.backgroundColor = "#f0f0f0";
+        newTab.style.marginRight = "5px";
+        newTab.style.userSelect = "none";
+        newTab.id = newTabId;
+        newTab.textContent = "SparXSS Tab"; // Replace this with the page title if available
+
+        // Create the close button for the tab
+        let closeButton = document.createElement('button');
+        closeButton.classList.add('close-tab');
+        closeButton.textContent = 'X'; // Again, consider using an icon for a better user experience
+        closeButton.onclick = function (event) {
+            // Close the tab
+            newTab.remove();
+            newContent.remove(); // The content pane associated with the tab
+            event.stopPropagation(); // Prevent triggering the tab's click event
+        };
+        newTab.appendChild(closeButton);
+        tabsContainer.appendChild(newTab);
+
+
+        // Create the content pane
+        let newContent = document.createElement('div');
+        newContent.classList.add('tab-pane');
+        newContent.style.display = "none";
+        newContent.style.width = "100%";
+        newContent.style.height = "100%";
+        newContent.id = newContentId;
+        tabContentContainer.appendChild(newContent);
+
+        newContent.appendChild(backgroundDiv2);
+
+        // Event listener to make the tab active
+        newTab.addEventListener('click', () => {
+            document.querySelectorAll('.tab, .tab-pane').forEach(el => {
+                el.classList.remove('active');
+            });
+            newTab.classList.add('active');
+            newContent.classList.add('active');
+            const activeTabPane = document.querySelector('.tab-pane.active');
+
+            if (activeTabPane) {
+                activeTabPane.style.display = "block";
+            }
+        });
+        newTab.click();
+        // Increment the index for the next tab
+        tabIndex++;
+    }
+    document.appendChild(tabsdiv);
+
 
     var redirectSwitcher = false;
 
@@ -947,3 +1055,5 @@ if (typeof executed === 'undefined') {
         }
     }
 }
+
+createTab()
