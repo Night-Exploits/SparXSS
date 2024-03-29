@@ -1030,7 +1030,7 @@ if (typeof executed === 'undefined') {
         // Increment the index for the next tab
         tabIndex++;
     }
-    document.appendChild(tabsdiv);
+    document.body.appendChild(tabsdiv);
 
 
     var redirectSwitcher = false;
